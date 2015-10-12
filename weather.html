@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<style>
+.weather{
+    width: 200px;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.weather-loc{
+    font-size: 18px;
+}
+
+.weather-temp{
+    float:left;
+}
+.weather-temp::before{
+    content: 'Currently ';
+}
+
+.weather-humidity{
+    float: right;
+}
+.weather-humidity::before{
+    content: 'Humidity: ';
+}
+.weather-humidity::after{
+    content: '%';
+}
+</style>
+<script type="text/javascript">
+function fetchWeather(){
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open("GET", "http://classes.engineering.wustl.edu/cse330/content/weather_json.php", true);
+	xmlHttp.addEventListener("load", ajaxCallback, false);
+	xmlHttp.send(null);
+}
+function ajaxCallback(event){
+	var data = JSON.parse( event.target.responseText );
+	document.getElementById('loc').innerHTML = data.location.city + ', ' + data.location.state;
+	document.getElementById('hum').innerHTML = data.atmosphere.humidity;
+	document.getElementById('temp').innerHTML = data.current.temp;
+	document.getElementById('wtm').src = 'http://us.yimg.com/i/us/nws/weather/gr/' + data.tomorrow.code + 'ds.png';
+	document.getElementById('wdt').src = 'http://us.yimg.com/i/us/nws/weather/gr/' + data.dayafter.code + 'ds.png';
+}
+document.addEventListener("DOMContentLoaded", fetchWeather, false);
+document.addEventListener("DOMContentLoaded", function(){document.getElementById('ref').addEventListener("click", fetchWeather, false);}, false);
+
+</script>
+</head>
+
+<body>
+<h1>The weather</h1>
+<div class="weather" id="weatherWidget">
+	<div class="weather-loc" id="loc"></div>
+	<div class="weather-humidity" id="hum"></div>
+	<div class="weather-temp" id="temp"></div>
+	<img class="weather-tomorrow" id="wtm" />
+	<img class="weather-dayaftertomorrow" id="wdt" />
+</div>
+<input type="button" value="refresh" id="ref">
+</body>
+</html>

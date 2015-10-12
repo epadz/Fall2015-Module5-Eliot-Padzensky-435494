@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JavaScript Calculator</title>
+<style>
+#result{
+	width:100%;
+}
+</style>
+</head>
+
+<body>
+	<form>
+    	<table>
+        	<tr>
+            	<td colspan="3">
+                	<div id="result">0</div>
+                </td>
+            </tr>
+        	<tr>
+            	<td><input type="number" name="na" id="na" value="0"></td>
+                <td><input type="number" name="nb" id="nb" value="0"></td>
+                <td>
+                	<input type="radio" name="op" id="add" checked><label for="add">+</label>
+                	<input type="radio" name="op" id="sbt"><label for="sbt">-</label>
+                	<input type="radio" name="op" id="mlt"><label for="mlt">X</label>
+                	<input type="radio" name="op" id="dvd"><label for="dvd">&divide;</label>
+                </td>
+            </tr>
+        </table>
+    </form>
+<script type="text/javascript">
+	var cur = 'a';	
+	var na = document.getElementById('na');
+	var nb = document.getElementById('nb');
+	var add = document.getElementById('add');
+	var sbt = document.getElementById('sbt');
+	var mlt = document.getElementById('mlt');
+	var dvd = document.getElementById('dvd');
+	var result = document.getElementById('result');
+	
+	na.value = '0';
+	nb.value = '0';
+		
+	add.addEventListener("change", function(){cur = 'a';calc();}, true);
+	sbt.addEventListener("change", function(){cur = 's';calc();}, true);
+	mlt.addEventListener("change", function(){cur = 'm';calc();}, true);
+	dvd.addEventListener("change", function(){cur = 'd';calc();}, true);
+	na.addEventListener("change", function(){calc();}, true);
+	nb.addEventListener("change", function(){calc();}, true);
+	
+	function calc(){
+		if(na.value != null && nb.value != null){
+			if(nb.value == '0' && dvd.checked){
+				result.innerHTML = "ERROR";
+			}else{
+				var a = parseFloat(na.value);
+				var b = parseFloat(nb.value);
+				
+				if(add.checked){
+					result.innerHTML = a + b;
+				}else if(sbt.checked){
+					result.innerHTML = a - b;					
+				}else if(mlt.checked){
+					result.innerHTML = a * b;
+				}else if(dvd.checked){
+					result.innerHTML = a / b;
+				}
+			}
+		}
+	}
+</script>
+</body>
+</html>
